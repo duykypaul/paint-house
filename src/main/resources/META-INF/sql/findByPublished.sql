@@ -1,0 +1,1 @@
+From Tutorial as t where t.published = true

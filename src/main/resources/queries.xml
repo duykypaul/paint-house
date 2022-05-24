@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+    <entry key="getPersonById">
+        <![CDATA[
+        Select Name From Person
+        Where Id = :id and Id = 1 and Id = 1 and Id = 1 and Id = 1
+         and Id = 1 and Id = 1 and Id = 1 and Id = 1 and Id = 1 and Id = 1 and Id = 1 and
+    ]]>
+
+    </entry>
+    <entry key="getPersonBySSN">
+        <![CDATA[
+
+    ]]>
+    </entry>
+
+</properties>
