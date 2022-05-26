@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.bezkoder.spring.jpa.postgresql.dto.TutorialDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -111,6 +112,20 @@ public class TutorialController {
 	public ResponseEntity<List<Tutorial>> findByPublished() {
 		try {
 			List<Tutorial> tutorials = tutorialRepository.findByPublished(true);
+
+			if (tutorials.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+			return new ResponseEntity<>(tutorials, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	@GetMapping("/tutorials/all")
+	public ResponseEntity<List<Tutorial>> findAll() {
+		try {
+			List<Tutorial> tutorials = tutorialRepository.findAll1();
 
 			if (tutorials.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);

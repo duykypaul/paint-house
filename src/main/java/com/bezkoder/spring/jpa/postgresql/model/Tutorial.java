@@ -1,14 +1,28 @@
 package com.bezkoder.spring.jpa.postgresql.model;
 
+import com.bezkoder.spring.jpa.postgresql.dto.TutorialDTO;
+
 import javax.persistence.*;
 
 @Entity
+@SqlResultSetMapping(
+		name = "stock_akhir_dto",
+		classes = @ConstructorResult(
+				targetClass = TutorialDTO.class,
+				columns = {
+						@ColumnResult(name = "id", type = Long.class),
+						@ColumnResult(name = "title", type = String.class),
+						@ColumnResult(name = "description", type = String.class),
+						@ColumnResult(name = "published", type = Boolean.class)
+				}
+		)
+)
 @Table(name = "tutorials")
 public class Tutorial {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 
 	@Column(name = "title")
 	private String title;
