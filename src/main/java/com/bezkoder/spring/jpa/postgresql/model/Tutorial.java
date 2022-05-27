@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @SqlResultSetMapping(
-		name = "stock_akhir_dto",
+		name = "findAll1",
 		classes = @ConstructorResult(
 				targetClass = TutorialDTO.class,
 				columns = {

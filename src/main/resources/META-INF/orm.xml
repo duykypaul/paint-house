@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
-        version="2.2">
-
-    <named-query name="Tutorial.activeGrabngoByCity">
-        <query>From Tutorial t where t.published = false</query>
-    </named-query>
-
-    <!-- You can have more...
-    <named-query name="Restaurant.otherMethodName">
-        <query>from Restaurant where whatever ... </query>
-    </named-query>
-    -->
-
-</entity-mappings>
-
-        <?xml version="1.0" encoding="UTF-8"?>
 <entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
                  version="2.0">
-<named-native-query name="findAll1" result-class="com.bezkoder.spring.jpa.postgresql.model.Tutorial"
-                    result-set-mapping="stock_akhir_dto">
-    <query><![CDATA[
-        SELECT t.id          AS productId,
-               t.description AS description,
-               t.published   AS published,
-               t.title       AS title
-        FROM tutorials t
-        ]]></query>
-</named-native-query>
-<named-query name="findById1" result-class="com.bezkoder.spring.jpa.postgresql.model.Tutorial">
-    <query>select * </query>
-</named-query>
+    <named-native-query name="findAll1" result-class="com.bezkoder.spring.jpa.postgresql.model.Tutorial"
+                        result-set-mapping="findAll1">
+        <query><![CDATA[
+            SELECT t.id          AS id,
+                   t.description AS description,
+                   t.published   AS published,
+                   t.title       AS title
+            FROM tutorials t where id < :id
+            ]]></query>
+    </named-native-query>
+
+    <entity class="com.bezkoder.spring.jpa.postgresql.model.Tutorial">
+        <named-query name="Tutorial.findById1" >
+            <query>select t From Tutorial t where t.published = true and t.id &lt; 5</query>
+        </named-query>
+        <named-native-query name="findAll2">
+            <query>SELECT t.id          AS id,
+                          t.description AS description,
+                          t.published   AS published,
+                          t.title       AS title
+                   FROM tutorials t</query>
+        </named-native-query>
+    </entity>
 </entity-mappings>

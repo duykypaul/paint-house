@@ -123,9 +123,10 @@ public class TutorialController {
 	}
 
 	@GetMapping("/tutorials/all")
-	public ResponseEntity<List<Tutorial>> findAll() {
+	public ResponseEntity<List<?>> findAll() {
 		try {
-			List<Tutorial> tutorials = tutorialRepository.findAll1();
+			List<?> tutorials = tutorialRepository.findAll1(2);
+//			List<?> tutorials = tutorialRepository.findById1();
 
 			if (tutorials.isEmpty()) {
 				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
