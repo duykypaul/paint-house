@@ -17,7 +17,6 @@ public interface TutorialRepository extends JpaRepository<Tutorial, Long>, Tutor
   @Query(name = "findAll1", nativeQuery = true)
   List<TutorialDTO> findAll1(Integer id);
 
-//  @SqlFromResource(path = "META-INF/sql/findByPublished.sql")
   List<Tutorial> findByTitleContaining(String title);
 
   List<Tutorial> findById1();
