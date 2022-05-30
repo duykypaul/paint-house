@@ -7,6 +7,7 @@ import com.bezkoder.spring.jpa.postgresql.service.TutorialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -157,9 +158,33 @@ public class TutorialController {
 	@ResponseStatus(HttpStatus.OK)
     public TutorialDTO genericFindById(@PathVariable Long id) {
         try {
-			return tutorialService.get(id);
+			return tutorialService.find(id);
         } catch (Exception e) {
 			log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @GetMapping("/tutorials/generic/ex")
+    @ResponseStatus(HttpStatus.OK)
+    public TutorialDTO genericFindByEx() {
+        try {
+            Example<Tutorial> dExample = Example.of(Tutorial.builder().title("java").published(true).build());
+            return tutorialService.findOneByExample(dExample);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @GetMapping("/tutorials/generic/exs")
+    @ResponseStatus(HttpStatus.OK)
+    public List<TutorialDTO> genericFindByExs() {
+        try {
+            Example<Tutorial> dExample = Example.of(Tutorial.builder().title("python").published(true).build());
+            return tutorialService.findByExample(dExample);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
             return null;
         }
     }

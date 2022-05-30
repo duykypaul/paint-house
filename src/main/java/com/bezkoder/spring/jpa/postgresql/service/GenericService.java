@@ -1,5 +1,8 @@
 package com.bezkoder.spring.jpa.postgresql.service;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
 /**
@@ -9,11 +12,14 @@ import java.util.List;
  * @author duyky
  */
 public interface GenericService<E, I, D> {
-    D get(I id);
-    List<D> getAll(Integer pageNumber, Integer size);
+    D find(I id);
+    Page<D> getAll(Integer pageNumber, Integer size);
     D saveOrUpdate(D element);
-    void delete(I id);
     boolean isExist(I id);
     E toEntity(D element);
     D toDTO(E element);
+
+    List<D> findByExample(Example<E> dExample);
+
+    D findOneByExample(Example<E> dExample);
 }
