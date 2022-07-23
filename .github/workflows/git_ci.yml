@@ -20,24 +20,20 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn clean install -DskipTests
-  dockerize:
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    needs: build
-    steps:
+
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
           image: duykypaul/spring-boot-jpa-postgresql-common
           tags: latest
           registry: docker.io
-          dockerfile: ./Dockerfile
+          dockerfile: Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
   deploy:
     runs-on: ubuntu-latest
     continue-on-error: false
-    needs: [ dockerize ]
+    needs: [ build ]
     steps:
       - name: Deploy app to server
         uses: appleboy/ssh-action@master
