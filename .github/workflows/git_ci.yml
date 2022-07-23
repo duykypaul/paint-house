@@ -31,7 +31,7 @@ jobs:
           image: duykypaul/spring-boot-jpa-postgresql-common
           tags: latest
           registry: docker.io
-          dockerfile: Dockerfile
+          dockerfile: ./Dockerfile
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
   deploy:
