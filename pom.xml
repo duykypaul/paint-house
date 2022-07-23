@@ -80,6 +80,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>spring-boot-jpa-postgresql</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

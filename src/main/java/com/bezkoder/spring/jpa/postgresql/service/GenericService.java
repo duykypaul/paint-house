@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * E : Entity Class
- * I : type of Id element
+ * I : type of ID element
  * D : DTO POJO
  * @author duyky
  */
