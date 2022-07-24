@@ -40,7 +40,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     continue-on-error: false
-    needs: [ build ]
+    needs: [ dockerize ]
     steps:
       - name: Deploy app to server
         uses: appleboy/ssh-action@master
