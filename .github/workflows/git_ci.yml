@@ -28,30 +28,23 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v3
-      - name: Build & push Docker image
-        uses: mr-smithers-excellent/docker-build-push@v5
-        with:
-          image: duykypaul/spring-boot-jpa-postgresql-common
-          tags: latest
-          registry: docker.io
-          dockerfile: Dockerfile
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build the stack
+        run: docker-compose up -d
 
-  deploy:
-    runs-on: ubuntu-latest
-    continue-on-error: false
-    needs: [ dockerize ]
-    steps:
-      - name: Deploy app to server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.VPS_SSH_HOST }}
-          port: 22
-          username: duykypaul
-          password: ${{ secrets.VPS_SSH_PASSWORD }}
-          script_stop: true
-          script: |
-            docker pull duykypaul/spring-boot-jpa-postgresql-common:latest
-            docker container stop spring-boot-jpa-postgresql-common || true
-            docker run -d --rm -p 8080:8080 --name spring-boot-jpa-postgresql-common duykypaul/spring-boot-jpa-postgresql-common:latest
+#  deploy:
+#    runs-on: ubuntu-latest
+#    continue-on-error: false
+#    needs: [ dockerize ]
+#    steps:
+#      - name: Deploy app to server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.VPS_SSH_HOST }}
+#          port: 22
+#          username: duykypaul
+#          password: ${{ secrets.VPS_SSH_PASSWORD }}
+#          script_stop: true
+#          script: |
+#            docker pull duykypaul/spring-boot-jpa-postgresql-common:latest
+#            docker container stop spring-boot-jpa-postgresql-common || true
+#            docker run -d --rm -p 8080:8080 --name spring-boot-jpa-postgresql-common duykypaul/spring-boot-jpa-postgresql-common:latest
