@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   API:
-    image: 'spring-boot-jpa-postgresql-common'
+    image: 'duykypaul/spring-boot-jpa-postgresql-common'
     ports:
       - "8080:8080"
     depends_on:
@@ -13,7 +13,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSQL:
-    image: postgres:13
+    image: postgres:latest
     ports:
       - "5432:5432"
     environment:
