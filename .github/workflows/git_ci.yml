@@ -1,10 +1,16 @@
-name: Build & Deploy
+name: Build Docker & Deploy
 
 on:
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
+
+env:
+  REPO: ${{ secrets.DOCKER_REPO }}
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+  PROJECT_NAME: bmiapp
 
 jobs:
   build:
@@ -15,11 +21,11 @@ jobs:
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: 11
+          java-version: '11'
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn clean install -DskipTests
+        run: mvn clean install
 
   dockerize:
     runs-on: ubuntu-latest
@@ -28,27 +34,31 @@ jobs:
       - build
     steps:
       - uses: actions/checkout@v3
-      - name: Docker login
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build the stack1
-        run: docker-compose up
-      - name: Build the stack1
-        run: docker-compose push
+      - name: Build & push Docker image
+        uses: mr-smithers-excellent/docker-build-push@v5
+        with:
+          image: $REPO
+          tags: latest
+          registry: docker.io
+          dockerfile: Dockerfile
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
 #  deploy:
 #    runs-on: ubuntu-latest
 #    continue-on-error: false
-#    needs: [ dockerize ]
+#    needs:
+#      - dockerize
 #    steps:
 #      - name: Deploy app to server
 #        uses: appleboy/ssh-action@master
 #        with:
 #          host: ${{ secrets.VPS_SSH_HOST }}
-#          port: 22
-#          username: duykypaul
+#          port: ${{ secrets.VPS_SSH_PORT }}
+#          username: ${{ secrets.VPS_SSH_USERNAME }}
 #          password: ${{ secrets.VPS_SSH_PASSWORD }}
 #          script_stop: true
 #          script: |
 #            docker pull duykypaul/spring-boot-jpa-postgresql-common:latest
-#            docker container stop spring-boot-jpa-postgresql-common || true
-#            docker run -d --rm -p 8080:8080 --name spring-boot-jpa-postgresql-common duykypaul/spring-boot-jpa-postgresql-common:latest
+#            docker container stop spring-boot-jpa-postgresql-common-app || true
+#            docker run -d -p 8080:8080 --network postgres_paint-network --name spring-boot-jpa-postgresql-common-app duykypaul/spring-boot-jpa-postgresql-common:latest
