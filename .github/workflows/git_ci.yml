@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.VPS_SSH_PASSWORD }}
           script_stop: true
           script: |
+            docker container rm -f spring-boot-jpa-postgresql-common-app || true
             docker image rm duykypaul/spring-boot-jpa-postgresql-common:latest || true
             docker pull duykypaul/spring-boot-jpa-postgresql-common:latest
-            docker container stop spring-boot-jpa-postgresql-common-app || true
             docker run -d -p 8080:8080 --network postgres_paint-network --name spring-boot-jpa-postgresql-common-app duykypaul/spring-boot-jpa-postgresql-common:latest
