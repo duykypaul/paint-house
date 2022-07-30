@@ -17,7 +17,7 @@ RUN addgroup -g 1001 -S kylcgroup
 
 RUN adduser -S kylc -u 1001
 
-COPY --from=build /project/target/spring-boot-jpa-postgresql-1.0.jar /app/spring-boot-jpa-postgresql.jar
+COPY --from=build /project/target/spring-boot-jpa-postgresql.jar /app/spring-boot-jpa-postgresql.jar
 
 WORKDIR /app
 
