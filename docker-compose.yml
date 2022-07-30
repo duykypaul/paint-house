@@ -1,7 +1,24 @@
 version: '3.1'
+
+networks:
+  paint-network:
+    driver: bridge
+
+volumes:
+  dir-site:
+  postgres-data:
+
 services:
-  API:
-    image: 'duykypaul/spring-boot-jpa-postgresql-common'
+  springboot:
+    container_name: spring_boot_jpa_postgresql
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    restart: always
+    networks:
+      - paint-network
+    volumes:
+      - dir-site:/home/sites
     ports:
       - "8080:8080"
     depends_on:
@@ -13,7 +30,9 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
   PostgreSql:
-    image: postgres
+    image: postgres:latest
+    networks:
+      - paint-network
     volumes:
       - postgres-data:/var/lib/postgresql/data
     environment:
@@ -24,5 +43,3 @@ services:
     ports:
       - "7000:5432"
     restart: always
-volumes:
-  postgres-data:
