@@ -37,7 +37,7 @@ jobs:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: 'spring-boot-jpa-postgresql-common'
+          image: 'duykypaul/spring-boot-jpa-postgresql-common'
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile
