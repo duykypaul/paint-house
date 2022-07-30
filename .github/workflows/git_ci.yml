@@ -10,7 +10,7 @@ env:
   REPO: ${{ secrets.DOCKER_REPO }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  PROJECT_NAME: bmiapp
+  PROJECT_NAME:  spring-boot-jpa-postgresql-common
 
 jobs:
   build:
@@ -37,7 +37,7 @@ jobs:
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: $REPO
+          image: ${{ secrets.DOCKER_REPO }}
           tags: latest
           registry: docker.io
           dockerfile: Dockerfile
