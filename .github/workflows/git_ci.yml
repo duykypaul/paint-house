@@ -6,12 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
 
-env:
-  REPO: ${{ secrets.DOCKER_REPO }}
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  PROJECT_NAME:  spring-boot-jpa-postgresql-common
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,8 +47,8 @@ jobs:
       - name: Deploy app to server
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.VPS_SSH_HOST }}
-          port: ${{ secrets.VPS_SSH_PORT }}
+          host: 103.179.175.62
+          port: 22
           username: ${{ secrets.VPS_SSH_USERNAME }}
           password: ${{ secrets.VPS_SSH_PASSWORD }}
           script_stop: true
