@@ -5,22 +5,16 @@ networks:
     driver: bridge
 
 volumes:
-  dir-site:
   postgres-data:
 
 services:
-  springboot:
-    container_name: spring_boot_jpa_postgresql
-    build:
-      dockerfile: Dockerfile
-      context: ./
-    restart: always
-    networks:
-      - paint-network
-    volumes:
-      - dir-site:/home/sites
+  API:
+    image: 'duykypaul/spring-boot-jpa-postgresql-common'
+    container_name: 'spring_boot_common_api'
     ports:
       - "8080:8080"
+    networks:
+      - paint-network
     depends_on:
       - PostgreSql
     environment:
@@ -31,6 +25,7 @@ services:
 
   PostgreSql:
     image: postgres:latest
+    container_name: 'spring_boot_common_postgres'
     networks:
       - paint-network
     volumes:
@@ -41,5 +36,5 @@ services:
       - POSTGRES_DB=testdb
       - PGDATA=/var/lib/postgresql/data/postgres-data
     ports:
-      - "7000:5432"
+      - "5432:5432"
     restart: always
