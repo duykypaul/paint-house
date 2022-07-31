@@ -53,7 +53,7 @@ jobs:
           password: ${{ secrets.VPS_SSH_PASSWORD }}
           script_stop: true
           script: |
-            docker-compose top API
+            docker-compose stop API
             docker rm spring_boot_common_api
             docker image rm duykypaul/spring-boot-jpa-postgresql-common:latest
             docker-compose up -d API
