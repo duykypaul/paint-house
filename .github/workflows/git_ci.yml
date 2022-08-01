@@ -31,7 +31,7 @@
 #      - name: Build & push Docker image
 #        uses: mr-smithers-excellent/docker-build-push@v5
 #        with:
-#          image: 'duykypaul/spring-boot-jpa-postgresql-common'
+#          image: 'duykypaul/paint-house-common'
 #          tags: latest
 #          registry: docker.io
 #          dockerfile: Dockerfile
@@ -55,5 +55,5 @@
 #          script: |
 #            docker-compose stop API
 #            docker rm spring_boot_common_api
-#            docker image rm duykypaul/spring-boot-jpa-postgresql-common:latest
+#            docker image rm duykypaul/paint-house-common:latest
 #            docker-compose up -d API

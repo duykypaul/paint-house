@@ -8,9 +8,9 @@ volumes:
   postgres-data:
 
 services:
-  API:
-    image: 'duykypaul/spring-boot-jpa-postgresql-common'
-    container_name: 'spring_boot_common_api'
+  PaintHouse:
+    image: 'duykypaul/paint-house'
+    container_name: 'paint_house'
     ports:
       - "8080:8080"
     networks:
@@ -18,14 +18,14 @@ services:
     depends_on:
       - PostgreSql
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSql:5432/testdb
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PaintHouseDB:5432/paint_house
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=123456
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
 
-  PostgreSql:
+  PaintHouseDB:
     image: postgres:latest
-    container_name: 'spring_boot_common_postgres'
+    container_name: 'paint_house_postgres'
     networks:
       - paint-network
     volumes:
@@ -33,7 +33,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=testdb
+      - POSTGRES_DB=paint_house
       - PGDATA=/var/lib/postgresql/data/postgres-data
     ports:
       - "5432:5432"
