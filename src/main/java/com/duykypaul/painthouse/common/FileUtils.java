@@ -19,6 +19,7 @@ public class FileUtils {
             content = Files.readString(Paths.get(file.getPath()), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         return content;
     }

@@ -1,11 +1,13 @@
 package com.duykypaul.painthouse.controller;
 
+import com.duykypaul.painthouse.common.UpdateUtil;
 import com.duykypaul.painthouse.dto.TutorialDTO;
 import com.duykypaul.painthouse.model.Tutorial;
 import com.duykypaul.painthouse.repository.TutorialRepository;
 import com.duykypaul.painthouse.service.TutorialService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,13 +30,12 @@ public class TutorialController {
     final TutorialService tutorialService;
 
     @GetMapping("/tutorials")
-    public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
+    public ResponseEntity<Page<Tutorial>> getAllTutorials(@RequestParam(required = false, defaultValue = "1") Integer page,
+                                                          @RequestParam(required = false, defaultValue = "10") Integer size) {
         try {
+            Pageable paging = PageRequest.of(page, size);
 
-//			if (title == null)
-//				tutorials.addAll(tutorialRepository.findAll());
-//			else
-            List<Tutorial> tutorials = new ArrayList<>(tutorialRepository.findByTitleContaining(title));
+            Page<Tutorial> tutorials = tutorialRepository.findAll(paging);
 
             if (tutorials.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -50,6 +51,10 @@ public class TutorialController {
     @GetMapping("/tutorials/{id}")
     public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
         Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
+
+        Tutorial a = Tutorial.builder().id(1L).title("entity").build();
+        UpdateUtil.copyNullProperties(TutorialDTO.builder().title("dto").build(), a);
+        System.out.println(a);
 
         return tutorialData
                 .map(tutorial -> new ResponseEntity<>(tutorial, HttpStatus.OK))

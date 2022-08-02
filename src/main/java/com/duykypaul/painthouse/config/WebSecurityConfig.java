@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                 .csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/login").permitAll()
+                .authorizeRequests().antMatchers("/login", "/api/tutorials/**").permitAll()
                 .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
                 .anyRequest().authenticated()
                 .and()
