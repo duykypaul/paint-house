@@ -25,17 +25,13 @@ public class User extends BaseEntity {
     @NotBlank
     @Size(max = 20)
     private String username;
-
+    @NotBlank
+    @Size(max = 120)
+    private String password;
     @NotBlank
     @Size(max = 50)
     @Email
     private String email;
-
-    @NotBlank
-    @Size(max = 120)
-    private String password;
-    private String avatar;
-    private String permission;
     private boolean isEnabled;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -49,6 +45,5 @@ public class User extends BaseEntity {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.isEnabled = false;
     }
 }

@@ -41,5 +41,5 @@ public abstract class BaseEntity {
     @JsonFormat(pattern=Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
     private LocalDate modifiedAt;
 
-    private Boolean isDeleted;
+    private boolean isDeleted;
 }

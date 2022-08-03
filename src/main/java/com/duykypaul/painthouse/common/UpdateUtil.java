@@ -5,9 +5,11 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
 import java.beans.PropertyDescriptor;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *Update utility class (null fields ignored)
@@ -35,13 +37,10 @@ public class UpdateUtil {
         PropertyDescriptor[] propertyDescriptors = beanWrapper.getPropertyDescriptors();
         Set<String> notNullFieldSet = new HashSet<>();
         if (propertyDescriptors.length > 0) {
-            for (PropertyDescriptor p : propertyDescriptors) {
-                String name = p.getName();
-                Object value = beanWrapper.getPropertyValue(name);
-                if (Objects.isNull(value)) {
-                    notNullFieldSet.add(name);
-                }
-            }
+            notNullFieldSet = Arrays.stream(propertyDescriptors)
+                    .map(PropertyDescriptor::getName)
+                    .filter(name -> Objects.isNull(beanWrapper.getPropertyValue(name)))
+                    .collect(Collectors.toSet());
         }
         String[] notNullField = new String[notNullFieldSet.size()];
         return notNullFieldSet.toArray(notNullField);
