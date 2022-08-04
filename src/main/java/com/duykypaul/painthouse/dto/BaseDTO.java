@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Data
@@ -18,13 +19,13 @@ public class BaseDTO {
 
     private String createdBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern=Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
-    private LocalDate createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    private LocalDateTime createdAt;
 
     private String modifiedBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern=Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
-    private LocalDate modifiedAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    private LocalDateTime modifiedAt;
 
     private boolean isDeleted;
 }

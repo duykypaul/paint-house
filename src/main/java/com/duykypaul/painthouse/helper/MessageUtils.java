@@ -1,21 +1,42 @@
 package com.duykypaul.painthouse.helper;
 
-import org.springframework.context.MessageSource;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Component;
 
-@Component
-public class MessageUtils implements MessageSourceAware {
+import java.text.MessageFormat;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
-    private static MessageSource messageSource;
+@Log4j2
+public class MessageUtils {
 
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        MessageUtils.messageSource = messageSource;
+    private final static String BASE_NAME = "messages";
+
+    public static String getMessage(String code, Locale locale) {
+        return getMessage(code, locale, null);
     }
 
-    public static String getMessage(String key, String... params) {
-        return messageSource.getMessage(key, params, LocaleContextHolder.getLocale());
+    public static String getMessage(String code, Locale locale, Object... args) {
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(BASE_NAME, locale);
+        String message;
+        try {
+            message = resourceBundle.getString(code);
+            message = MessageFormat.format(message, args);
+        } catch (Exception ex) {
+            log.info(">>> Can not get message with code {}", code);
+            log.error(ex.getMessage(), ex);
+            message = code;
+        }
+
+        return message;
+    }
+
+    public static String getMessage(String code) {
+        return getMessage(code, LocaleContextHolder.getLocale(), null);
+    }
+
+    public static String getMessage(String code, Object... args) {
+        return getMessage(code, LocaleContextHolder.getLocale(), args);
     }
 }

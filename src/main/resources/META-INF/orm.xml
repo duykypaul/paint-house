@@ -10,12 +10,13 @@
                    t.description AS description,
                    t.published   AS published,
                    t.title       AS title
-            FROM tutorials t where id < :id
+            FROM tutorials t
+            where id < :id
             ]]></query>
     </named-native-query>
 
     <entity class="com.duykypaul.painthouse.model.Tutorial">
-        <named-query name="Tutorial.findById1" >
+        <named-query name="Tutorial.findById1">
             <query>select t From Tutorial t where t.published = true and t.id &lt; 5</query>
         </named-query>
         <named-native-query name="findAll2">

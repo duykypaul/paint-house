@@ -6,5 +6,5 @@ import org.springframework.data.domain.Pageable;
 
 public interface TutorialCustomRepository {
 
-  Page<Tutorial> customFindByPublished(boolean published, Pageable pageable);
+    Page<Tutorial> customFindByPublished(boolean published, Pageable pageable);
 }

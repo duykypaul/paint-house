@@ -8,12 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Getter
 public class ApplicationException extends RuntimeException {
-
-    /**
-     *
-     */
-
-    private static final long serialVersionUID = 1L;
     private String errorCode;
-
 }

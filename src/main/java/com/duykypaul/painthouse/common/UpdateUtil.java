@@ -12,12 +12,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- *Update utility class (null fields ignored)
+ * Update utility class (null fields ignored)
  */
 public class UpdateUtil {
 
     /**
-     *All properties with null values are not copied
+     * All properties with null values are not copied
      *
      * @param source
      * @param target
@@ -27,7 +27,7 @@ public class UpdateUtil {
     }
 
     /**
-     *Get empty field in property
+     * Get empty field in property
      *
      * @param target
      * @return

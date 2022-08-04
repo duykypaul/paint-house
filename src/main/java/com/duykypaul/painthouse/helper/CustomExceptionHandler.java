@@ -4,7 +4,7 @@ import com.duykypaul.painthouse.exception.ApplicationException;
 import com.duykypaul.painthouse.exception.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -16,18 +16,23 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ApplicationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerNotFoundException(ApplicationException e) {
-        return new ErrorResponse(e);
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerNotFoundException(MethodArgumentTypeMismatchException e) {
-        return new ErrorResponse(e.getErrorCode(), "request không hợp lệ");
+        return new ErrorResponse("request không hợp lệ");
     }
 
-    @ExceptionHandler({ExpiredJwtException.class, })
+    @ExceptionHandler({ExpiredJwtException.class,})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handlerNotFoundException() {
-        return new ErrorResponse("401", "hết thời hạn đăng nhập");
+        return new ErrorResponse(MessageUtils.getMessage("user.login.expire"));
+    }
+    @ExceptionHandler({BadCredentialsException.class,})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ErrorResponse handlerLoginFailException() {
+        return new ErrorResponse(MessageUtils.getMessage("user.login.invalid"));
     }
 }

@@ -25,11 +25,11 @@ public class JwtUtils {
         Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
         claims.put("id", userPrincipal.getId() + "");
         return Jwts.builder()
-            .setClaims(claims)
-            .setIssuedAt(new Date())
-            .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
-            .signWith(SignatureAlgorithm.HS512, jwtSecret)
-            .compact();
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(new Date().getTime() + jwtExpirationMs))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 
     public String findUsernameByJwtToken(String token) {

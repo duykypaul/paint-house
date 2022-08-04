@@ -1,6 +1,7 @@
 package com.duykypaul.painthouse.service;
 
 
+import com.duykypaul.painthouse.dto.JwtDTO;
 import com.duykypaul.painthouse.dto.UserDTO;
 import com.duykypaul.painthouse.dto.request.LoginReq;
 import com.duykypaul.painthouse.model.User;
@@ -10,9 +11,9 @@ import javax.validation.Valid;
 import java.util.List;
 
 public interface UserService extends GenericService<User, Long, UserDTO> {
-    ResponseEntity<?> signIn(@Valid LoginReq loginReq);
+    JwtDTO signIn(@Valid LoginReq loginReq);
 
-    ResponseEntity<?> findById(Long id);
+    UserDTO findById(Long id);
 
     User findByUsername(String username);
 

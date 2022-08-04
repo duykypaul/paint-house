@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface TutorialMapper {
     TutorialMapper INSTANCE = Mappers.getMapper(TutorialMapper.class);
+
     @InheritConfiguration
     TutorialDTO toDTO(Tutorial tutorial);
 

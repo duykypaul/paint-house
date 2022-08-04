@@ -5,6 +5,8 @@ import com.duykypaul.painthouse.dto.JwtDTO;
 import com.duykypaul.painthouse.dto.UserDTO;
 import com.duykypaul.painthouse.dto.request.LoginReq;
 import com.duykypaul.painthouse.dto.response.ResultResp;
+import com.duykypaul.painthouse.exception.ApplicationException;
+import com.duykypaul.painthouse.helper.MessageUtils;
 import com.duykypaul.painthouse.mapper.UserMapper;
 import com.duykypaul.painthouse.model.User;
 import com.duykypaul.painthouse.repository.RoleRepository;
@@ -61,8 +63,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
     }
 
     @Override
-    public ResponseEntity<?> signIn(@Valid LoginReq loginReq) {
-        try {
+    public JwtDTO signIn(@Valid LoginReq loginReq) {
             UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword());
             Authentication authentication = authenticationManager.authenticate(authReq);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -72,27 +73,16 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
             if (user.isPresent()) {
                 userDTO = userMapper.toDTO(user.get());
             }
-            return ResponseEntity.ok(new JwtDTO(HttpStatus.OK.value(), jwtToken, userDTO));
-        } catch (AuthenticationException e) {
-            log.error(e.getMessage(), e);
-            return ResponseEntity.ok(ResultResp.builder()
-                    .status(HttpStatus.UNAUTHORIZED.value())
-                    .message("Email or password invalid!")
-                    .build()
-            );
-        }
+            return new JwtDTO(HttpStatus.OK.value(), jwtToken, userDTO);
     }
 
     @Override
-    public ResponseEntity<?> findById(Long id) {
-        try {
-            User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("Error: User Id is not found"));
-            UserDTO userDTO = userMapper.toDTO(user);
-            return ResponseEntity.ok(new ResultResp(HttpStatus.OK.value(), userDTO, "Success"));
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            return ResponseEntity.ok(new ResultResp(HttpStatus.UNAUTHORIZED.value(), null, "UnAuthorized"));
-        }
+    public UserDTO findById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ApplicationException(
+                        MessageUtils.getMessage("user.notfound", id))
+                );
+        return userMapper.toDTO(user);
     }
 
     @Override

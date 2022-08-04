@@ -11,6 +11,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+
     @InheritConfiguration
     UserDTO toDTO(User user);
 

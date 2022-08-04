@@ -2,6 +2,7 @@ package com.duykypaul.painthouse.model;
 
 import com.duykypaul.painthouse.common.Constant;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jdk.jfr.Timestamp;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -30,16 +32,16 @@ public abstract class BaseEntity {
     private String createdBy;
 
     @Column(updatable = false)
-    @JsonFormat(pattern=Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    @JsonFormat(pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
     @CreatedDate
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
     @LastModifiedBy
     private String modifiedBy;
 
     @LastModifiedDate
-    @JsonFormat(pattern=Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
-    private LocalDate modifiedAt;
+    @JsonFormat(pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    private LocalDateTime modifiedAt;
 
     private boolean isDeleted;
 }

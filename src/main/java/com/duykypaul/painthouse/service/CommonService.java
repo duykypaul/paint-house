@@ -1,5 +1,7 @@
 package com.duykypaul.painthouse.service;
 
+import com.duykypaul.painthouse.dto.UserDTO;
+import com.duykypaul.painthouse.mapper.UserMapper;
 import com.duykypaul.painthouse.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -13,13 +15,14 @@ import org.springframework.stereotype.Component;
 public class CommonService {
     final UserService userService;
 
-    public final User getUser() {
+    public final UserDTO getUser() {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null) {
                 String username = auth.getName();
-                if(!username.equals("anonymousUser")) {
-                    return userService.findByUsername(username);
+                if (!username.equals("anonymousUser")) {
+                    var entity= userService.findByUsername(username);
+                    return UserMapper.INSTANCE.toDTO(entity);
                 }
             }
         } catch (Exception ex) {

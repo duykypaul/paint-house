@@ -34,6 +34,7 @@ Run both Back-end & Front-end in one place:
 > [Integrate Vue.js with Spring Boot Rest API](https://bezkoder.com/integrate-vue-spring-boot/)
 
 ## Run Spring Boot application
+
 ```
 mvn spring-boot:run
 ```

@@ -16,7 +16,7 @@ services:
     networks:
       - paint-network
     depends_on:
-      -  PaintHouseDB
+      - PaintHouseDB
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://PaintHouseDB:5432/paint_house
       - SPRING_DATASOURCE_USERNAME=postgres

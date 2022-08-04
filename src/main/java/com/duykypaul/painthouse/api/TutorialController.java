@@ -150,12 +150,12 @@ public class TutorialController {
     }
 
     @GetMapping("/tutorials/generic/{id}")
-	@ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.OK)
     public TutorialDTO genericFindById(@PathVariable Long id) {
         try {
-			return tutorialService.find(id);
+            return tutorialService.find(id);
         } catch (Exception e) {
-			log.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
             return null;
         }
     }

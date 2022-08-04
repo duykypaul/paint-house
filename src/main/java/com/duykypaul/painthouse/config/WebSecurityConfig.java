@@ -53,7 +53,6 @@ public class WebSecurityConfig {
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests().antMatchers("/api/users/login", "/api/tutorials/**").permitAll()
-                .antMatchers("/users/**", "/settings/**").hasAuthority("Admin")
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
