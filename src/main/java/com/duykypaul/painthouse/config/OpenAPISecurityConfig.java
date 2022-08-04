@@ -17,20 +17,20 @@ import java.util.Arrays;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "User API",
-                version = "${api.version}",
+                title = "Paint-House API Documents",
+                version = "${springdoc.version}",
                 contact = @Contact(
                         name = "Duykypaul", email = "duykypaul@gmail.com", url = "https://www.linkedin.com/in/cong-ky-le-b00b73170/"
                 ),
                 license = @License(
                         name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0"
                 ),
-                termsOfService = "${tos.uri}",
-                description = "${api.description}"
+                termsOfService = "${springdoc.uri}",
+                description = "${springdoc.description}"
         ),
         servers = @Server(
-                url = "${api.server.url}",
-                description = "Production"
+                url = "${springdoc.server.url}",
+                description = "${springdoc.server.description}"
         )
 )
 public class OpenAPISecurityConfig {

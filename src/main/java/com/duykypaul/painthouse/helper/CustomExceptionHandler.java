@@ -16,13 +16,13 @@ public class CustomExceptionHandler {
     @ExceptionHandler(ApplicationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerNotFoundException(ApplicationException e) {
-        return new ErrorResponse(e.getMessage());
+        return new ErrorResponse(HttpStatus.BAD_REQUEST, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handlerNotFoundException(MethodArgumentTypeMismatchException e) {
-        return new ErrorResponse("request không hợp lệ");
+        return new ErrorResponse(HttpStatus.BAD_REQUEST, "request không hợp lệ");
     }
 
     @ExceptionHandler({ExpiredJwtException.class,})

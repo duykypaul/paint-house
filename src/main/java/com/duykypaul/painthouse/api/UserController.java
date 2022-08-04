@@ -36,7 +36,7 @@ public class UserController {
 
     @PostMapping("/login")
     public JwtDTO signIn(@Valid @RequestBody LoginReq loginReq) {
-        return userService.signIn(loginReq);
+        return userService.login(loginReq);
     }
 
     @GetMapping("/me")

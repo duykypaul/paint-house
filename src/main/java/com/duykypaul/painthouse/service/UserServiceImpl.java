@@ -4,7 +4,6 @@ package com.duykypaul.painthouse.service;
 import com.duykypaul.painthouse.dto.JwtDTO;
 import com.duykypaul.painthouse.dto.UserDTO;
 import com.duykypaul.painthouse.dto.request.LoginReq;
-import com.duykypaul.painthouse.dto.response.ResultResp;
 import com.duykypaul.painthouse.exception.ApplicationException;
 import com.duykypaul.painthouse.helper.MessageUtils;
 import com.duykypaul.painthouse.mapper.UserMapper;
@@ -17,11 +16,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -63,7 +60,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
     }
 
     @Override
-    public JwtDTO signIn(@Valid LoginReq loginReq) {
+    public JwtDTO login(@Valid LoginReq loginReq) {
             UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword());
             Authentication authentication = authenticationManager.authenticate(authReq);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -73,7 +70,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
             if (user.isPresent()) {
                 userDTO = userMapper.toDTO(user.get());
             }
-            return new JwtDTO(HttpStatus.OK.value(), jwtToken, userDTO);
+            return new JwtDTO(HttpStatus.OK, jwtToken, userDTO);
     }
 
     @Override
