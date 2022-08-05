@@ -1,5 +1,6 @@
-package com.duykypaul.painthouse.helper;
+package com.duykypaul.painthouse.exception;
 
+import com.duykypaul.painthouse.common.MessageUtils;
 import com.duykypaul.painthouse.exception.ApplicationException;
 import com.duykypaul.painthouse.exception.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;

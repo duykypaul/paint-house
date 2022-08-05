@@ -1,6 +1,6 @@
 package com.duykypaul.painthouse.api;
 
-import com.duykypaul.painthouse.common.UpdateUtil;
+import com.duykypaul.painthouse.common.UpdateUtils;
 import com.duykypaul.painthouse.dto.TutorialDTO;
 import com.duykypaul.painthouse.model.Tutorial;
 import com.duykypaul.painthouse.repository.TutorialRepository;
@@ -45,7 +45,7 @@ public class TutorialController {
         Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 
         Tutorial a = Tutorial.builder().id(1L).title("entity").build();
-        UpdateUtil.copyNullProperties(TutorialDTO.builder().title("dto").build(), a);
+        UpdateUtils.copyNullProperties(TutorialDTO.builder().title("dto").build(), a);
         System.out.println(a);
 
         return tutorialData

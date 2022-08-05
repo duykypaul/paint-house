@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Update utility class (null fields ignored)
  */
-public class UpdateUtil {
+public class UpdateUtils {
 
     /**
      * All properties with null values are not copied

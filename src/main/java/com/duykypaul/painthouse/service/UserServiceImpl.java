@@ -5,7 +5,7 @@ import com.duykypaul.painthouse.dto.JwtDTO;
 import com.duykypaul.painthouse.dto.UserDTO;
 import com.duykypaul.painthouse.dto.request.LoginReq;
 import com.duykypaul.painthouse.exception.ApplicationException;
-import com.duykypaul.painthouse.helper.MessageUtils;
+import com.duykypaul.painthouse.common.MessageUtils;
 import com.duykypaul.painthouse.mapper.UserMapper;
 import com.duykypaul.painthouse.model.User;
 import com.duykypaul.painthouse.repository.RoleRepository;

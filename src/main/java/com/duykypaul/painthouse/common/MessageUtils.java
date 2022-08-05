@@ -1,4 +1,4 @@
-package com.duykypaul.painthouse.helper;
+package com.duykypaul.painthouse.common;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.MessageSourceAware;
