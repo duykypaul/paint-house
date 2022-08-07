@@ -31,7 +31,7 @@ public class UserController {
     public List<UserDTO> findAllPaging(@RequestParam(defaultValue = "0") Integer pageNo,
                                        @RequestParam(defaultValue = "10") Integer pageSize,
                                        @RequestParam(defaultValue = "id") String sortBy) {
-        return userService.findAll(pageNo, pageSize, sortBy);
+        return userService.findAll(pageNo - 1, pageSize, sortBy);
     }
 
     @PostMapping("/login")

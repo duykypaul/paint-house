@@ -1,7 +1,7 @@
 package com.duykypaul.painthouse.service;
 
-import com.duykypaul.painthouse.dto.CategoryDTO;
-import com.duykypaul.painthouse.model.Category;
+import com.duykypaul.painthouse.dto.ProductDTO;
+import com.duykypaul.painthouse.model.Product;
 
 public interface ProductService extends GenericService<Product, Long, ProductDTO> {
 

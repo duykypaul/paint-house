@@ -1,14 +1,19 @@
 package com.duykypaul.painthouse.dto;
 
 
-import lombok.Data;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Data
-public class ProductDTO implements Serializable {
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductDTO extends BaseDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    private Boolean deleted;
 
     private Long categoryId;
 
@@ -16,6 +21,9 @@ public class ProductDTO implements Serializable {
 
     private String description;
 
-    private Long typeId;
+    private String metaCode;
 
+    private String metaType;
+
+    private String packing;
 }

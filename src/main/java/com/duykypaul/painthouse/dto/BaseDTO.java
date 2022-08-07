@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -27,7 +26,7 @@ public class BaseDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
     private LocalDateTime modifiedAt;
 
-    private boolean isDeleted;
+    private Boolean deleteFlag;
 }
 
 

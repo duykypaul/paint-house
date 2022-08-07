@@ -1,13 +1,13 @@
 package com.duykypaul.painthouse.service;
 
-import com.duykypaul.painthouse.dto.CategoryDTO;
-import com.duykypaul.painthouse.mapper.CategoryMapper;
-import com.duykypaul.painthouse.model.Category;
+import com.duykypaul.painthouse.dto.ProductDTO;
+import com.duykypaul.painthouse.mapper.ProductMapper;
+import com.duykypaul.painthouse.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductServiceImpl extends GenericServiceImpl<Product, Long, ProductDTO> {
+public class ProductServiceImpl extends GenericServiceImpl<Product, Long, ProductDTO> implements ProductService {
 
     protected ProductServiceImpl(JpaRepository<Product, Long> repository) {
         super(repository);

@@ -1,46 +1,50 @@
 package com.duykypaul.painthouse.api;
 
-import com.duykypaul.painthouse.dto.JwtDTO;
-import com.duykypaul.painthouse.dto.UserDTO;
-import com.duykypaul.painthouse.dto.request.LoginReq;
+import com.duykypaul.painthouse.dto.ProductDTO;
+import com.duykypaul.painthouse.model.Product;
 import com.duykypaul.painthouse.service.CommonService;
-import com.duykypaul.painthouse.service.UserService;
+import com.duykypaul.painthouse.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.List;
-
 @Log4j2
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 @ResponseStatus(HttpStatus.OK)
-public class UserController {
-    final UserService userService;
+public class ProductController {
+    final ProductService productService;
     final CommonService commonService;
 
     @GetMapping(value = "/{id}")
-    public UserDTO findUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public ProductDTO findById(@PathVariable Long id) {
+        return productService.findById(id);
     }
 
-    @GetMapping("/pagination")
-    public List<UserDTO> findAllPaging(@RequestParam(defaultValue = "0") Integer pageNo,
-                                       @RequestParam(defaultValue = "10") Integer pageSize,
+    @PostMapping
+    public ProductDTO saveOrUpdate(@RequestBody ProductDTO dto) {
+        return productService.saveOrUpdate(dto);
+    }
+
+    @PutMapping
+    public Long updateIgnoreNull(@RequestBody ProductDTO dto) {
+        return productService.updateIgnoreNull(dto, dto.getId());
+    }
+
+    @GetMapping
+    public Page<ProductDTO> findPaging(@RequestParam(required = false) Long categoryId,
+                                       @RequestParam(required = false, defaultValue = "1") Integer page,
+                                       @RequestParam(required = false, defaultValue = "10") Integer size,
                                        @RequestParam(defaultValue = "id") String sortBy) {
-        return userService.findAll(pageNo, pageSize, sortBy);
-    }
-
-    @PostMapping("/login")
-    public JwtDTO signIn(@Valid @RequestBody LoginReq loginReq) {
-        return userService.login(loginReq);
-    }
-
-    @GetMapping("/me")
-    public UserDTO getUserInfo() {
-        return commonService.getUser();
+        Pageable paging = PageRequest.of(page - 1, size, Sort.by(sortBy));
+        if (ObjectUtils.isEmpty(categoryId)) {
+            return productService.findAll(paging);
+        }
+        Example<Product> dExample = Example.of(Product.builder().categoryId(categoryId).build());
+        return productService.findByExample(dExample, paging);
     }
 }

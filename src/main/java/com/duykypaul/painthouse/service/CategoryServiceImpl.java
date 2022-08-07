@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryServiceImpl extends GenericServiceImpl<Category, Long, CategoryDTO> {
+public class CategoryServiceImpl extends GenericServiceImpl<Category, Long, CategoryDTO> implements CategoryService {
 
     protected CategoryServiceImpl(JpaRepository<Category, Long> repository) {
         super(repository);

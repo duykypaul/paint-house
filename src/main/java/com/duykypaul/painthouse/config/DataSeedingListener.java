@@ -1,14 +1,17 @@
 package com.duykypaul.painthouse.config;
 
-
 import com.duykypaul.painthouse.common.Constant;
+import com.duykypaul.painthouse.model.Category;
+import com.duykypaul.painthouse.model.Product;
 import com.duykypaul.painthouse.model.Role;
 import com.duykypaul.painthouse.model.User;
+import com.duykypaul.painthouse.repository.CategoryRepository;
+import com.duykypaul.painthouse.repository.ProductRepository;
 import com.duykypaul.painthouse.repository.RoleRepository;
 import com.duykypaul.painthouse.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +21,17 @@ import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
+public class DataSeedingListener {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        // Add Roles
+    @EventListener
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        //Add Roles
         if (roleRepository.findByName(Constant.AUTH.ROLE.ROLE_ADMIN).isEmpty()) {
             roleRepository.save(new Role(Constant.AUTH.ROLE.ROLE_ADMIN));
         }
@@ -37,7 +42,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             roleRepository.save(new Role(Constant.AUTH.ROLE.ROLE_USER));
         }
         // Admin account
-        if (userRepository.findByEmail(Constant.AUTH.ADMIN_EMAIL).isEmpty()) {
+        if (userRepository.count() == 0) {
             User admin = new User();
             admin.setEmail(Constant.AUTH.ADMIN_EMAIL);
             admin.setPassword(passwordEncoder.encode(Constant.AUTH.ADMIN_PASSWORD));
@@ -49,6 +54,20 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
             admin.setEnabled(true);
             admin.setRoles(roles);
             userRepository.save(admin);
+        }
+
+        if (categoryRepository.count() == 0) {
+            categoryRepository.save(Category.builder().name("Sơn nội thất").build());
+        }
+
+        if (productRepository.count() == 0) {
+            productRepository.save(Product.builder()
+                    .categoryId(1L)
+                    .name("KS01 – SƠN MEN SỨ NỘI THẤT SILVER")
+                    .metaCode("KS01").metaType("MULTI-PUR PRIMER")
+                    .packing("5,10")
+                    .build()
+            );
         }
     }
 }

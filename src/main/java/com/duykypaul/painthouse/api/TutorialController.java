@@ -2,6 +2,7 @@ package com.duykypaul.painthouse.api;
 
 import com.duykypaul.painthouse.common.UpdateUtils;
 import com.duykypaul.painthouse.dto.TutorialDTO;
+import com.duykypaul.painthouse.exception.ApplicationException;
 import com.duykypaul.painthouse.model.Tutorial;
 import com.duykypaul.painthouse.repository.TutorialRepository;
 import com.duykypaul.painthouse.service.TutorialService;
@@ -20,14 +21,14 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/tutorials")
 @Log4j2
 public class TutorialController {
 
     final TutorialRepository tutorialRepository;
     final TutorialService tutorialService;
 
-    @GetMapping("/tutorials")
+    @GetMapping
     public ResponseEntity<Page<Tutorial>> getAllTutorials(@RequestParam(required = false, defaultValue = "1") Integer page,
                                                           @RequestParam(required = false, defaultValue = "10") Integer size) {
         try {
@@ -40,7 +41,7 @@ public class TutorialController {
         }
     }
 
-    @GetMapping("/tutorials/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Tutorial> getTutorialById(@PathVariable("id") long id) {
         Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 
@@ -53,7 +54,7 @@ public class TutorialController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping("/tutorials")
+    @PostMapping
     public ResponseEntity<Tutorial> createTutorial(@RequestBody Tutorial tutorial) {
         try {
             Tutorial _tutorial = tutorialRepository
@@ -68,7 +69,7 @@ public class TutorialController {
         }
     }
 
-    @PutMapping("/tutorials/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
         Optional<Tutorial> tutorialData = tutorialRepository.findById(id);
 
@@ -83,7 +84,7 @@ public class TutorialController {
         }
     }
 
-    @DeleteMapping("/tutorials/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") long id) {
         try {
             tutorialRepository.deleteById(id);
@@ -93,7 +94,7 @@ public class TutorialController {
         }
     }
 
-    @DeleteMapping("/tutorials")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteAllTutorials() {
         try {
             tutorialRepository.deleteAll();
@@ -104,7 +105,7 @@ public class TutorialController {
 
     }
 
-    @GetMapping("/tutorials/published")
+    @GetMapping("/published")
     public ResponseEntity<List<Tutorial>> findByPublished() {
         try {
             List<Tutorial> tutorials = tutorialRepository.findByPublished(true);
@@ -118,7 +119,7 @@ public class TutorialController {
         }
     }
 
-    @GetMapping("/tutorials/all")
+    @GetMapping("/all")
     public ResponseEntity<List<?>> findAll() {
         try {
             List<?> tutorials = tutorialRepository.findAll1(2);
@@ -133,7 +134,7 @@ public class TutorialController {
         }
     }
 
-    @GetMapping("/tutorials/published/{size}/{page}")
+    @GetMapping("/published/{size}/{page}")
     public ResponseEntity<Page<Tutorial>> findByPublished(@PathVariable Integer size, @PathVariable Integer page) {
         try {
             Pageable paging = PageRequest.of(page, size);
@@ -149,30 +150,30 @@ public class TutorialController {
         }
     }
 
-    @GetMapping("/tutorials/generic/{id}")
+    @GetMapping("/generic/{id}")
     @ResponseStatus(HttpStatus.OK)
     public TutorialDTO genericFindById(@PathVariable Long id) {
         try {
-            return tutorialService.find(id);
+            return tutorialService.findById(id);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
     }
 
-    @GetMapping("/tutorials/generic/ex")
+    @GetMapping("/generic/ex")
     @ResponseStatus(HttpStatus.OK)
     public TutorialDTO genericFindByEx() {
         try {
             Example<Tutorial> dExample = Example.of(Tutorial.builder().title("java").published(true).build());
-            return tutorialService.findOneByExample(dExample);
+            return tutorialService.findOneByExample(dExample).orElseThrow(() -> new ApplicationException(""));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             return null;
         }
     }
 
-    @GetMapping("/tutorials/generic/exs")
+    @GetMapping("/generic/exs")
     @ResponseStatus(HttpStatus.OK)
     public List<TutorialDTO> genericFindByExs() {
         try {
