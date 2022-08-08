@@ -16,6 +16,10 @@ import java.util.stream.Collectors;
  */
 public class UpdateUtils {
 
+    private UpdateUtils() {
+        throw new IllegalStateException("UpdateUtils class");
+    }
+
     /**
      * All properties with null values are not copied
      *

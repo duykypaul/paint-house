@@ -1,6 +1,6 @@
 package com.duykypaul.painthouse.model;
 
-import com.duykypaul.painthouse.common.Constant.AUTH.ROLE;
+import com.duykypaul.painthouse.common.Constant.Auth.ROLE;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -31,4 +31,5 @@ Configuration:
     Root:
       level: error
       AppenderRef:
-        ref: LogToConsole
+        - ref: LogToConsole
+        - ref: LogToRollingFile

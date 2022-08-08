@@ -1,7 +1,6 @@
 package com.duykypaul.painthouse.common;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.text.MessageFormat;
@@ -11,10 +10,14 @@ import java.util.ResourceBundle;
 @Log4j2
 public class MessageUtils {
 
-    private final static String BASE_NAME = "messages";
+    private static final String BASE_NAME = "messages";
+
+    private MessageUtils() {
+        throw new IllegalStateException("MessageUtils class");
+    }
 
     public static String getMessage(String code, Locale locale) {
-        return getMessage(code, locale, null);
+        return getMessage(code, locale, (Object) null);
     }
 
     public static String getMessage(String code, Locale locale, Object... args) {
@@ -33,7 +36,7 @@ public class MessageUtils {
     }
 
     public static String getMessage(String code) {
-        return getMessage(code, LocaleContextHolder.getLocale(), null);
+        return getMessage(code, LocaleContextHolder.getLocale(), (Object) null);
     }
 
     public static String getMessage(String code, Object... args) {

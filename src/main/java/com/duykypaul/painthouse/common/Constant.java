@@ -1,8 +1,11 @@
 package com.duykypaul.painthouse.common;
 
 public class Constant {
+    private Constant() {
+        throw new IllegalStateException("Constant class");
+    }
 
-    public static class AUTH {
+    public static class Auth {
         public static final String ADMIN_EMAIL = "lminh9812@gmail.com";
         public static final String ADMIN_PASSWORD = "890*()iop";
         public static final String ADMIN_NAME = "admin";
@@ -18,7 +21,11 @@ public class Constant {
 
     }
 
-    public static class FORMAT_DATE {
+    public static class FormatDate {
+        private FormatDate() {
+            throw new IllegalStateException("FormatDate class");
+        }
+
         public static final String DATE_TIME_DEFAULT = "yyyy-MM-dd HH:mm:ss";
     }
 }

@@ -1,8 +1,6 @@
 package com.duykypaul.painthouse.exception;
 
 import com.duykypaul.painthouse.common.MessageUtils;
-import com.duykypaul.painthouse.exception.ApplicationException;
-import com.duykypaul.painthouse.exception.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -31,6 +29,7 @@ public class CustomExceptionHandler {
     public ErrorResponse handlerNotFoundException() {
         return new ErrorResponse(MessageUtils.getMessage("user.login.expire"));
     }
+
     @ExceptionHandler({BadCredentialsException.class,})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ErrorResponse handlerLoginFailException() {
