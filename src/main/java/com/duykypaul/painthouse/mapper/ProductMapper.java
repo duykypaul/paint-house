@@ -1,8 +1,6 @@
 package com.duykypaul.painthouse.mapper;
 
-import com.duykypaul.painthouse.dto.CategoryDTO;
 import com.duykypaul.painthouse.dto.ProductDTO;
-import com.duykypaul.painthouse.model.Category;
 import com.duykypaul.painthouse.model.Product;
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.Mapper;

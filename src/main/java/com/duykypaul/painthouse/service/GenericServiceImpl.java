@@ -26,7 +26,7 @@ public abstract class GenericServiceImpl<E, I, D> implements GenericService<E, I
     @Override
     public D findById(I id) {
         Optional<E> element = repository.findById(id);
-        return element.map(this::toDTO).orElse(null);
+        return element.map(this::toDTO).orElseThrow(null);
     }
 
     @Override
@@ -42,7 +42,7 @@ public abstract class GenericServiceImpl<E, I, D> implements GenericService<E, I
     @Override
     public D saveOrUpdate(D element) {
         try {
-            if (Objects.isNull(element)) throw new ApplicationException(MessageUtils.getMessage("message.notfound"));
+            if (Objects.isNull(element)) throw new ApplicationException(MessageUtils.getMessage("message.invalid"));
             E entity = repository.save(toEntity(element));
             return toDTO(entity);
         } catch (Exception e) {
@@ -55,12 +55,12 @@ public abstract class GenericServiceImpl<E, I, D> implements GenericService<E, I
     public Long updateIgnoreNull(D element, I id) {
         try {
             if (Objects.isNull(element)) return null;
-            repository.findById(id).map(item -> {
+            repository.findById(id).ifPresentOrElse(item -> {
                 MapperUtils.transformToObject(element, item);
-//                UpdateUtils.copyNullProperties(element, item);
                 repository.save(item);
-                return id;
-            }).orElseThrow(() -> new ApplicationException(MessageUtils.getMessage("message.notfound", id)));
+            }, () -> {
+                throw new ApplicationException(MessageUtils.getMessage("message.notfound", id));
+            });
             return (Long) id;
         } catch (Exception e) {
             log.error(e.getMessage(), e);

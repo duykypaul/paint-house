@@ -32,25 +32,25 @@ public class DataSeedingListener {
     @EventListener
     public void onApplicationEvent(ContextRefreshedEvent event) {
         //Add Roles
-        if (roleRepository.findByName(Constant.AUTH.ROLE.ROLE_ADMIN).isEmpty()) {
-            roleRepository.save(new Role(Constant.AUTH.ROLE.ROLE_ADMIN));
+        if (roleRepository.findByName(Constant.Auth.ROLE.ROLE_ADMIN).isEmpty()) {
+            roleRepository.save(new Role(Constant.Auth.ROLE.ROLE_ADMIN));
         }
-        if (roleRepository.findByName(Constant.AUTH.ROLE.ROLE_MODERATOR).isEmpty()) {
-            roleRepository.save(new Role(Constant.AUTH.ROLE.ROLE_MODERATOR));
+        if (roleRepository.findByName(Constant.Auth.ROLE.ROLE_MODERATOR).isEmpty()) {
+            roleRepository.save(new Role(Constant.Auth.ROLE.ROLE_MODERATOR));
         }
-        if (roleRepository.findByName(Constant.AUTH.ROLE.ROLE_USER).isEmpty()) {
-            roleRepository.save(new Role(Constant.AUTH.ROLE.ROLE_USER));
+        if (roleRepository.findByName(Constant.Auth.ROLE.ROLE_USER).isEmpty()) {
+            roleRepository.save(new Role(Constant.Auth.ROLE.ROLE_USER));
         }
         // Admin account
         if (userRepository.count() == 0) {
             User admin = new User();
-            admin.setEmail(Constant.AUTH.ADMIN_EMAIL);
-            admin.setPassword(passwordEncoder.encode(Constant.AUTH.ADMIN_PASSWORD));
-            admin.setUsername(Constant.AUTH.ADMIN_NAME);
+            admin.setEmail(Constant.Auth.ADMIN_EMAIL);
+            admin.setPassword(passwordEncoder.encode(Constant.Auth.ADMIN_PASSWORD));
+            admin.setUsername(Constant.Auth.ADMIN_NAME);
             Set<Role> roles = new HashSet<>();
-            roles.add(roleRepository.findByName(Constant.AUTH.ROLE.ROLE_ADMIN).get());
-            roles.add(roleRepository.findByName(Constant.AUTH.ROLE.ROLE_MODERATOR).get());
-            roles.add(roleRepository.findByName(Constant.AUTH.ROLE.ROLE_USER).get());
+            roles.add(roleRepository.findByName(Constant.Auth.ROLE.ROLE_ADMIN).get());
+            roles.add(roleRepository.findByName(Constant.Auth.ROLE.ROLE_MODERATOR).get());
+            roles.add(roleRepository.findByName(Constant.Auth.ROLE.ROLE_USER).get());
             admin.setEnabled(true);
             admin.setRoles(roles);
             userRepository.save(admin);

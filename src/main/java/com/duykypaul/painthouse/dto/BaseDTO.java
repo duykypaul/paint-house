@@ -18,12 +18,12 @@ public class BaseDTO {
 
     private String createdBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FormatDate.DATE_TIME_DEFAULT)
     private LocalDateTime createdAt;
 
     private String modifiedBy;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FORMAT_DATE.DATE_TIME_DEFAULT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = Constant.FormatDate.DATE_TIME_DEFAULT)
     private LocalDateTime modifiedAt;
 
     private Boolean deleteFlag;
