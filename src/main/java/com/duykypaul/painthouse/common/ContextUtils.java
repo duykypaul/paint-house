@@ -7,6 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.Optional;
 
 public class ContextUtils {
+    private ContextUtils() {
+        throw new IllegalStateException("ContextUtils class");
+    }
+
     public static Optional<String> getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {

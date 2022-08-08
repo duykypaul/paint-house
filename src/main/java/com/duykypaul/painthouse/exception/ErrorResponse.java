@@ -20,23 +20,28 @@ public class ErrorResponse {
     private String message;
     private String stackTrace;
     private Object data;
+
     public ErrorResponse() {
         timestamp = LocalDateTime.now();
     }
+
     public ErrorResponse(HttpStatus httpStatus, String message) {
         this();
         this.code = httpStatus.value();
         this.status = httpStatus.name();
         this.message = message;
     }
+
     public ErrorResponse(String message) {
         this();
         this.message = message;
     }
+
     public ErrorResponse(HttpStatus httpStatus, String message, String stackTrace) {
         this(httpStatus, message);
         this.stackTrace = stackTrace;
     }
+
     public ErrorResponse(HttpStatus httpStatus, String message, String stackTrace, Object data) {
         this(httpStatus, message, stackTrace);
         this.data = data;

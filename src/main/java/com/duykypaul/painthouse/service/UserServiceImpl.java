@@ -1,11 +1,11 @@
 package com.duykypaul.painthouse.service;
 
 
+import com.duykypaul.painthouse.common.MessageUtils;
 import com.duykypaul.painthouse.dto.JwtDTO;
 import com.duykypaul.painthouse.dto.UserDTO;
 import com.duykypaul.painthouse.dto.request.LoginReq;
 import com.duykypaul.painthouse.exception.ApplicationException;
-import com.duykypaul.painthouse.common.MessageUtils;
 import com.duykypaul.painthouse.mapper.UserMapper;
 import com.duykypaul.painthouse.model.User;
 import com.duykypaul.painthouse.repository.RoleRepository;
@@ -36,7 +36,7 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
     final RoleRepository roleRepository;
     final PasswordEncoder passwordEncoder;
 
-    final UserMapper userMapper = UserMapper.INSTANCE;
+    static final UserMapper userMapper = UserMapper.INSTANCE;
 
     final JwtUtils jwtUtils;
 
@@ -61,16 +61,16 @@ public class UserServiceImpl extends GenericServiceImpl<User, Long, UserDTO> imp
 
     @Override
     public JwtDTO login(@Valid LoginReq loginReq) {
-            UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword());
-            Authentication authentication = authenticationManager.authenticate(authReq);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwtToken = jwtUtils.generateJwtToken(authentication);
-            Optional<User> user = userRepository.findByUsername(authentication.getName());
-            UserDTO userDTO = new UserDTO();
-            if (user.isPresent()) {
-                userDTO = userMapper.toDTO(user.get());
-            }
-            return new JwtDTO(HttpStatus.OK, jwtToken, userDTO);
+        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginReq.getUsername(), loginReq.getPassword());
+        Authentication authentication = authenticationManager.authenticate(authReq);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwtToken = jwtUtils.generateJwtToken(authentication);
+        Optional<User> user = userRepository.findByUsername(authentication.getName());
+        UserDTO userDTO = new UserDTO();
+        if (user.isPresent()) {
+            userDTO = userMapper.toDTO(user.get());
+        }
+        return new JwtDTO(HttpStatus.OK, jwtToken, userDTO);
     }
 
     @Override

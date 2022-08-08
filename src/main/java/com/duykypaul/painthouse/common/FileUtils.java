@@ -11,6 +11,11 @@ import java.util.Objects;
 
 @Log4j2
 public class FileUtils {
+
+    private FileUtils() {
+        throw new IllegalStateException("FileUtils class");
+    }
+
     public static String readSqlFile(String filename) {
         ClassLoader classLoader = FileUtils.class.getClassLoader();
         File file = new File(Objects.requireNonNull(classLoader.getResource(filename)).getFile());

@@ -1,9 +1,11 @@
 package com.duykypaul.painthouse.service;
 
+import com.duykypaul.painthouse.common.MapperUtils;
+import com.duykypaul.painthouse.common.MessageUtils;
+import com.duykypaul.painthouse.exception.ApplicationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -22,27 +24,48 @@ public abstract class GenericServiceImpl<E, I, D> implements GenericService<E, I
     }
 
     @Override
-    public D find(I id) {
+    public D findById(I id) {
         Optional<E> element = repository.findById(id);
-        return element.map(this::toDTO).orElse(null);
+        return element.map(this::toDTO).orElseThrow(null);
     }
 
     @Override
-    public Page<D> getAll(Integer pageNumber, Integer size) {
-        Pageable pageable = PageRequest.of(pageNumber, size);
+    public List<D> findAll() {
+        return repository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<D> findAll(Pageable pageable) {
         return repository.findAll(pageable).map(this::toDTO);
     }
 
     @Override
     public D saveOrUpdate(D element) {
         try {
-            if (Objects.isNull(element)) return null;
+            if (Objects.isNull(element)) throw new ApplicationException(MessageUtils.getMessage("message.invalid"));
             E entity = repository.save(toEntity(element));
             return toDTO(entity);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
         return null;
+    }
+
+    @Override
+    public Long updateIgnoreNull(D element, I id) {
+        try {
+            if (Objects.isNull(element)) return null;
+            repository.findById(id).ifPresentOrElse(item -> {
+                MapperUtils.transformToObject(element, item);
+                repository.save(item);
+            }, () -> {
+                throw new ApplicationException(MessageUtils.getMessage("message.notfound", id));
+            });
+            return (Long) id;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return -1L;
     }
 
     @Override
@@ -59,10 +82,15 @@ public abstract class GenericServiceImpl<E, I, D> implements GenericService<E, I
     }
 
     @Override
-    public D findOneByExample(Example<E> dExample) {
+    public Page<D> findByExample(Example<E> dExample, Pageable pageable) {
+        return repository.findAll(dExample, pageable)
+                .map(this::toDTO);
+    }
+
+    @Override
+    public Optional<D> findOneByExample(Example<E> dExample) {
         return repository.findOne(dExample)
-                .map(this::toDTO)
-                .orElse(null);
+                .map(this::toDTO);
     }
 
 }
